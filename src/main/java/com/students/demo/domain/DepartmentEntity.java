@@ -11,41 +11,50 @@ import javax.persistence.Table;
 @Table(name="department")
 public class DepartmentEntity {
 	@Id
-	@Column(name="department_id")
+	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long depId;
-	@Column(name="department")
-	private String depName;
-	public Long getDepId() {
-		return depId;
+	private Long id;
+	@Column(name="department_id")
+	private String depid;
+	@Column(name="department_name")
+	private String depname;
+	public Long getId() {
+		return id;
 	}
-	public void setDepId(Long depId) {
-		this.depId = depId;
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public String getDepName() {
-		return depName;
+	public String getDepid() {
+		return depid;
 	}
-	public void setDepName(String depName) {
-		this.depName = depName;
+	public void setDepid(String depid) {
+		this.depid = depid;
 	}
-	
-	
-	
-	public DepartmentEntity( String depName) {
+	public String getDepname() {
+		return depname;
+	}
+	public void setDepname(String depname) {
+		this.depname = depname;
+	}
+	public DepartmentEntity(String depid, String depname) {
 		super();
-	
-		this.depName = depName;
+		this.depid = depid;
+		this.depname = depname;
 	}
-	
-	
 	public DepartmentEntity() {
 		super();
 	}
-	
 	@Override
 	public String toString() {
-		return "DepartmentEntity [depId=" + depId + ", depName=" + depName + "]";
+		return "DepartmentEntity [id=" + id + ", depid=" + depid + ", depname=" + depname + "]";
 	}
+
+	
+	
+	
+
+	
+
 	
 	
 

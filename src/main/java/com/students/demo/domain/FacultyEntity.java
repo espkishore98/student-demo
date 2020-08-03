@@ -17,22 +17,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class FacultyEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
+	private Long id;
 	@Column(name="faculty_id")
-	private Long facultyId;
+	private String facultyId;
 	@Column(name="faculty_name")
 	private String facultyName;
-	@Column(name="salary")
-	private int salary;
-	@Column(name="address")
-	private String address;
+	@Column(name="email")
+	private String facultyMailId;
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
 	@JoinColumn(name="department_id")
 	private DepartmentEntity department;
-	public Long getFacultyId() {
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getFacultyId() {
 		return facultyId;
 	}
-	public void setFacultyId(Long facultyId) {
+	public void setFacultyId(String facultyId) {
 		this.facultyId = facultyId;
 	}
 	public String getFacultyName() {
@@ -41,17 +47,11 @@ public class FacultyEntity {
 	public void setFacultyName(String facultyName) {
 		this.facultyName = facultyName;
 	}
-	public int getSalary() {
-		return salary;
+	public String getFacultyMailId() {
+		return facultyMailId;
 	}
-	public void setSalary(int salary) {
-		this.salary = salary;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setFacultyMailId(String facultyMailId) {
+		this.facultyMailId = facultyMailId;
 	}
 	public DepartmentEntity getDepartment() {
 		return department;
@@ -59,11 +59,11 @@ public class FacultyEntity {
 	public void setDepartment(DepartmentEntity department) {
 		this.department = department;
 	}
-	public FacultyEntity(String facultyName, int salary, String address, DepartmentEntity department) {
+	public FacultyEntity(String facultyId, String facultyName, String facultyMailId, DepartmentEntity department) {
 		super();
+		this.facultyId = facultyId;
 		this.facultyName = facultyName;
-		this.salary = salary;
-		this.address = address;
+		this.facultyMailId = facultyMailId;
 		this.department = department;
 	}
 	public FacultyEntity() {
@@ -71,8 +71,9 @@ public class FacultyEntity {
 	}
 	@Override
 	public String toString() {
-		return "FacultyEntity [facultyId=" + facultyId + ", facultyName=" + facultyName + ", salary=" + salary
-				+ ", address=" + address + ", department=" + department + "]";
+		return "FacultyEntity [id=" + id + ", facultyId=" + facultyId + ", facultyName=" + facultyName
+				+ ", facultyMailId=" + facultyMailId + ", department=" + department + "]";
 	}
+	
 
 }

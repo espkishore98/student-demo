@@ -16,21 +16,21 @@ public class DepartmentController {
 	
 	@Autowired
 	IDepartmentService depService;
-	
-	
-	
-	@PostMapping("/Department")
-	public String InsertDepartment(@RequestBody DepartmentEntity depEntity ) {
-		return depService.InsertDepartment(depEntity);
-		
-	}
-	
-	
-	
-	@PostMapping("/getDepById")
-	public Optional<DepartmentEntity> getDepartmentDetails(@RequestParam Long id) {
-		return depService.GetDepartmentById(id);
-	}
-	
+//	
+//	
+//	
+//	@PostMapping("/Department")
+//	public String InsertDepartment(@RequestBody DepartmentEntity depEntity ) {
+//		return depService.InsertDepartment(depEntity);
+//		
+//	}
+//	
+//	
+//	
+//	@PostMapping("/getDepById")
+//	public Optional<DepartmentEntity> getDepartmentDetails(@RequestParam Long id) {
+//		return depService.GetDepartmentById(id);
+//	}
+//	
 
 }

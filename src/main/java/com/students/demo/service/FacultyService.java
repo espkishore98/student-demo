@@ -19,51 +19,37 @@ public class FacultyService implements IFacultyService{
 	@Autowired
 	DepartmentRepository departmentRepo;
 	
-	@Override
-	public String facultyDetails(GetFacultydDetails getFacultyDetails) {
-		if(getFacultyDetails.getSalary()<0) {
-			return "please enter salary";
-			}	
-		DepartmentEntity entity=null;
-		Optional<DepartmentEntity> opt = departmentRepo.findById(getFacultyDetails.getDepartmentId());
-		
-		if(opt.isPresent()) {
-		entity=opt.get();
-		}
-	
-		FacultyEntity fEntity= new FacultyEntity(getFacultyDetails.getFacultyName(), getFacultyDetails.getSalary(), getFacultyDetails.getAddress(), entity);
-		
-		facultyRepo.saveAndFlush(fEntity);
-		return "faculty details inserted successfully";
-		
-	}
-	
-	@Override
-	public List<FacultyEntity>  getFacultyByName(String facultyName) {
-		return facultyRepo.findFacultyByName(facultyName);
-		
-	}
-	
-	@Override
-	public String updateFacultySalary(Long facultyId,int salary) {
-		facultyRepo.updateFacultySalary(facultyId,salary);
-		return "salary updated";
-	}
-	
-	@Override
-	public String deleteFacultyById(Long facultyId) {
-		facultyRepo.deleteById(facultyId);
-		return "faculty details deleted successfully";
-	}
-	
-	@Override
-	public String deleteFacultyDetailsByName(String facultyName) {
-		facultyRepo.deleteFacultyByName(facultyName);
-		return facultyName+"\'s" +" details deleted successfly";
-		
-	}
-	
-	
-	
+	/*
+	 * // @Override // public String facultyDetails(GetFacultydDetails
+	 * getFacultyDetails) { // if(getFacultyDetails.getSalary()<0) { // return
+	 * "please enter salary"; // } // DepartmentEntity entity=null; //
+	 * Optional<DepartmentEntity> opt =
+	 * departmentRepo.findById(getFacultyDetails.getDepartmentId()); // //
+	 * if(opt.isPresent()) { // entity=opt.get(); // } // // FacultyEntity fEntity=
+	 * new FacultyEntity(getFacultyDetails.getFacultyName(),
+	 * getFacultyDetails.getSalary(), getFacultyDetails.getAddress(), entity); // //
+	 * facultyRepo.saveAndFlush(fEntity); // return
+	 * "faculty details inserted successfully"; // // }
+	 * 
+	 * @Override public List<FacultyEntity> getFacultyByName(String facultyName) {
+	 * return facultyRepo.findFacultyByName(facultyName);
+	 * 
+	 * }
+	 * 
+	 * @Override public String updateFacultySalary(Long facultyId,int salary) {
+	 * facultyRepo.updateFacultySalary(facultyId,salary); return "salary updated"; }
+	 * 
+	 * @Override public String deleteFacultyById(Long facultyId) {
+	 * facultyRepo.deleteById(facultyId); return
+	 * "faculty details deleted successfully"; }
+	 * 
+	 * @Override public String deleteFacultyDetailsByName(String facultyName) {
+	 * facultyRepo.deleteFacultyByName(facultyName); return facultyName+"\'s"
+	 * +" details deleted successfly";
+	 * 
+	 * }
+	 * 
+	 * 
+	 */
 
 }

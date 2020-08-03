@@ -18,27 +18,27 @@ public class FacultyController {
 	@Autowired
 	IFacultyService facultyService;
 	
-	@PostMapping("/insertFaculty")
-	public String insertfaculty(@RequestBody GetFacultydDetails facultyDetails) {
-		return facultyService.facultyDetails(facultyDetails);
-	}
-	@GetMapping("/getFacultyByName")
-	public List<FacultyEntity> getFacultyDetailsByName(@RequestParam String facultyName) {
-		return facultyService.getFacultyByName(facultyName);
-	}
-	
-	@PostMapping("/updateFacultySalary")
-	public String updateFacultySalary(@RequestParam Long facultyId, @RequestParam int salary ) {
-		return facultyService.updateFacultySalary(facultyId, salary);
-	}
-	
-	@PostMapping("/deleteFaculty")
-	public String deleteFaculty(@RequestParam Long facultyId ) {
-		return facultyService.deleteFacultyById(facultyId);
-	}
-	@PostMapping("/deleteFacultyByName")
-	public String deleteFacultyByName(@RequestParam String facultyName ) {
-		return facultyService.deleteFacultyDetailsByName(facultyName);
-	}
+//	@PostMapping("/insertFaculty")
+//	public String insertfaculty(@RequestBody GetFacultydDetails facultyDetails) {
+//		return facultyService.facultyDetails(facultyDetails);
+//	}
+//	@GetMapping("/getFacultyByName")
+//	public List<FacultyEntity> getFacultyDetailsByName(@RequestParam String facultyName) {
+//		return facultyService.getFacultyByName(facultyName);
+//	}
+//	
+//	@PostMapping("/updateFacultySalary")
+//	public String updateFacultySalary(@RequestParam Long facultyId, @RequestParam int salary ) {
+//		return facultyService.updateFacultySalary(facultyId, salary);
+//	}
+//	
+//	@PostMapping("/deleteFaculty")
+//	public String deleteFaculty(@RequestParam Long facultyId ) {
+//		return facultyService.deleteFacultyById(facultyId);
+//	}
+//	@PostMapping("/deleteFacultyByName")
+//	public String deleteFacultyByName(@RequestParam String facultyName ) {
+//		return facultyService.deleteFacultyDetailsByName(facultyName);
+//	}
 
 }

@@ -6,8 +6,8 @@ import com.students.demo.domain.DepartmentEntity;
 
 public interface IDepartmentService {
 
-	Optional<DepartmentEntity> GetDepartmentById(Long depId);
+	//Optional<DepartmentEntity> GetDepartmentById(Long depId);
 
-	String InsertDepartment(DepartmentEntity depEntity);
+	//String InsertDepartment(DepartmentEntity depEntity);
 
 }

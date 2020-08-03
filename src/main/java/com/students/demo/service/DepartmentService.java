@@ -16,25 +16,25 @@ public class DepartmentService implements IDepartmentService{
 	
 	
 	
-	@Override
-	public String InsertDepartment(DepartmentEntity depEntity) {
-		if(depEntity.getDepName()==null) {
-			return "Please insert department name";
-		}
-		departmentRepo.saveAndFlush(depEntity);
-
-		return "Department inserted successfully";
-		
-		
-		
-	}
-	
-	@Override
-	public Optional<DepartmentEntity> GetDepartmentById(Long depId) {
-		return departmentRepo.findById(depId);
-		
-		
-	}
-	
+//	@Override
+//	public String InsertDepartment(DepartmentEntity depEntity) {
+//		if(depEntity.getDepName()==null) {
+//		return "Please insert department name";
+//		}
+//		departmentRepo.saveAndFlush(depEntity);
+//
+//		return "Department inserted successfully";
+//		
+//		
+//		
+//	}
+//	
+//	@Override
+//	public Optional<DepartmentEntity> GetDepartmentById(Long depId) {
+//		return departmentRepo.findById(depId);
+//		
+//		
+//	}
+//	
 
 }
