@@ -1,5 +1,7 @@
-package com.students.demo.domain;
+package com.college.domain;
 
+
+import java.util.Calendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +18,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name="users")
-public class UsersEntity {
+public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
@@ -27,29 +29,31 @@ public class UsersEntity {
 	private String firstName;
 	@Column(name = "last_name")
 	private String lastName;
-	@Column(name="email")
-	private String email;
+	@Column(name="email_address")
+	private String emailId;
 	@Column(name = "password")
 	private String password;
 	@Column(name="type")
 	private String type;
+	@Column(name="created_on")
+	private Calendar createdOn;
+	@Column(name="modified_on")
+	private Calendar modifiedOn;
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
 	@JoinColumn(name="student_id")
-	private StudentEntity student;
+	private Student student;
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
 	@JoinColumn(name="faculty_id")
-	private FacultyEntity faculty;
+	private Faculty faculty;
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
 	@JoinColumn(name="department_id")
-	private DepartmentEntity department;
+	private Department department;
+	
 	public Long getId() {
 		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 	public String getUserId() {
 		return userId;
@@ -69,11 +73,11 @@ public class UsersEntity {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getEmail() {
-		return email;
+	public String getEmailId() {
+		return emailId;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 	public String getPassword() {
 		return password;
@@ -87,47 +91,64 @@ public class UsersEntity {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public StudentEntity getStudent() {
+	public Calendar getCreatedOn() {
+		return createdOn;
+	}
+	public void setCreatedOn(Calendar createdOn) {
+		this.createdOn = createdOn;
+	}
+	public Calendar getModifiedOn() {
+		return modifiedOn;
+	}
+	public void setModifiedOn(Calendar modifiedOn) {
+		this.modifiedOn = modifiedOn;
+	}
+	public Student getStudent() {
 		return student;
 	}
-	public void setStudent(StudentEntity student) {
+	public void setStudent(Student student) {
 		this.student = student;
 	}
-	public FacultyEntity getFaculty() {
+	public Faculty getFaculty() {
 		return faculty;
 	}
-	public void setFaculty(FacultyEntity faculty) {
+	public void setFaculty(Faculty faculty) {
 		this.faculty = faculty;
 	}
-	public DepartmentEntity getDepartment() {
+	public Department getDepartment() {
 		return department;
 	}
-	public void setDepartment(DepartmentEntity department) {
+	public void setDepartment(Department department) {
 		this.department = department;
 	}
-	public UsersEntity(String userId, String firstName, String lastName, String email, String password, String type,
-			StudentEntity student, FacultyEntity faculty, DepartmentEntity department) {
+
+	public Users(String userId, String firstName, String lastName, String emailId, String password, String type,
+			Calendar createdOn, Calendar modifiedOn, Student student, Faculty faculty,
+			Department department) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.email = email;
+		this.emailId = emailId;
 		this.password = password;
 		this.type = type;
+		this.createdOn = createdOn;
+		this.modifiedOn = modifiedOn;
 		this.student = student;
 		this.faculty = faculty;
 		this.department = department;
 	}
-	
-	public UsersEntity() {
+
+	public Users() {
 		super();
 	}
+
 	@Override
 	public String toString() {
-		return "UsersEntity [id=" + id + ", userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + ", password=" + password + ", type=" + type + ", student=" + student
-				+ ", faculty=" + faculty + ", department=" + department + "]";
+		return "Users [id=" + id + ", userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", emailId=" + emailId + ", password=" + password + ", type=" + type + ", createdOn=" + createdOn
+				+ ", modifiedOn=" + modifiedOn + ", student=" + student + ", faculty=" + faculty + ", department="
+				+ department + "]";
 	}
-	
 
 }
