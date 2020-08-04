@@ -88,7 +88,9 @@ public class StudentService implements IStudentService {
 //		return name+"\'s" +" details deleted successfly";
 //		
 //	}
-	
+	/*
+	* please add validations to registerUser api
+	*/
 	public String registerUser(RegisterUser registerUser) {
 		
 		
