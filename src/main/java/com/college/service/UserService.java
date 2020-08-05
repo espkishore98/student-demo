@@ -51,12 +51,6 @@ public class UserService implements IUserService {
 	@Override
 	public ResponseObject registerUser(RegisterUser registerUser) {
 		
-		/*
-		 * validation to be added by kishore 
-		 *
-		 * validation for email
-		*/
-		
 		try {
 			Student student=null;
 			Faculty faculty=null;
