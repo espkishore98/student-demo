@@ -20,6 +20,7 @@ import com.college.repository.DepartmentRepository;
 import com.college.repository.FacultyRepository;
 import com.college.repository.StudentRepository;
 import com.college.repository.UsersRepository;
+import com.college.utils.CommonUtils;
 
 @Service
 public class UserService implements IUserService {
@@ -51,6 +52,32 @@ public class UserService implements IUserService {
 	@Override
 	public ResponseObject registerUser(RegisterUser registerUser) {
 		
+		if ((CommonUtils.isNull(registerUser.getUserId()) || (registerUser.getUserId().length() == 0))) {
+			return new ResponseObject(null, ErrorMessages.PROVIDE_USER_ID, HttpStatus.BAD_REQUEST);
+		}
+		if ((CommonUtils.isNull(registerUser.getFirstName()) || (registerUser.getFirstName().length() == 0))) {
+			return new ResponseObject(null, ErrorMessages.PROVIDE_FIRST_NAME, HttpStatus.BAD_REQUEST);
+		}
+		if ((CommonUtils.isNull(registerUser.getLastName()) || (registerUser.getLastName().length() == 0))) {
+			return new ResponseObject(null, ErrorMessages.PROVIDE_LAST_NAME, HttpStatus.BAD_REQUEST);
+		}
+		if ((CommonUtils.isNull(registerUser.getEmailId()) || (registerUser.getEmailId().length() == 0))) {
+			return new ResponseObject(null, ErrorMessages.PROVIDE_EMAIL_ID, HttpStatus.BAD_REQUEST);
+		}
+		if ((CommonUtils.isNull(registerUser.getPassword()) || (registerUser.getPassword().length() == 0))) {
+			return new ResponseObject(null, ErrorMessages.PROVIDE_PASSWORD, HttpStatus.BAD_REQUEST);
+		}
+		boolean checker = emailChecker(registerUser.getEmailId());
+		if (checker == false) {
+		return new ResponseObject(null, ErrorMessages.CHECK_EMAIL_FORMAT, HttpStatus.BAD_REQUEST);
+		}
+		if ((CommonUtils.isNull(registerUser.getDepartmentName()) || (registerUser.getDepartmentName().length() == 0))) {
+			return new ResponseObject(null, ErrorMessages.PROVIDE_DEPARTMENT_NAME, HttpStatus.BAD_REQUEST);
+		}
+		if ((CommonUtils.isNull(registerUser.getType()) || (registerUser.getType().length() == 0))) {
+			return new ResponseObject(null, ErrorMessages.PROVIDE_USER_TYPE, HttpStatus.BAD_REQUEST);
+		}
+		
 		try {
 			Student student=null;
 			Faculty faculty=null;
@@ -59,6 +86,7 @@ public class UserService implements IUserService {
 			/*
 			 * validations for dept entity
 			*/
+		
 			if(registerUser.getType().equalsIgnoreCase(MessageConstants.STUDENT)) {
 				student=new Student(registerUser.getUserId(),registerUser.getFirstName().concat(" ").concat(registerUser.getLastName()), 
 						registerUser.getAddress(), registerUser.getEmailId(), Calendar.getInstance(), Calendar.getInstance(),department);
@@ -76,7 +104,7 @@ public class UserService implements IUserService {
 			if(user==null) {
 				return new ResponseObject(null, ErrorMessages.REGISTRATION_FAILED, HttpStatus.BAD_REQUEST);
 			}else {
-				return new ResponseObject(null, SuccessMessages.REGISTERED_SUCCESSFULLY, HttpStatus.BAD_REQUEST);
+				return new ResponseObject(null, SuccessMessages.REGISTERED_SUCCESSFULLY, HttpStatus.OK);
 			}
 			
 		}catch(Exception e) {
