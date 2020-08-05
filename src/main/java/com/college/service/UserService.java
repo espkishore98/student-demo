@@ -52,11 +52,6 @@ public class UserService implements IUserService {
 	@Override
 	public ResponseObject registerUser(RegisterUser registerUser) {
 		
-		/*
-		 * validation to be added by kishore 
-		 *
-		 * validation for email
-		*/
 		if ((CommonUtils.isNull(registerUser.getUserId()) || (registerUser.getUserId().length() == 0))) {
 			return new ResponseObject(null, ErrorMessages.PROVIDE_USER_ID, HttpStatus.BAD_REQUEST);
 		}
