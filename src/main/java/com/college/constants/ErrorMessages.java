@@ -11,5 +11,10 @@ public interface ErrorMessages {
 	public final String CHECK_EMAIL_FORMAT = "Please Check Email Format";
 	public final String PROVIDE_USER_ID = "Please Provide UserId";
 	public final String PROVIDE_USER_TYPE = "Please Provide User Type";
+	public final String ENTER_EMAIL_ADDRESS = "Please provide Email address to login";
+	public final String ENTER_REGISTER_EMAIL = "Please provide a registered email address";
+	public final String Enter_CORRECT_PASSWORD = "Please provide a valid password";
+	public final String SPACES_AND_CHARACTER_NOTALLOWED = "Spaces and special characters are not allowed in type ";
+	public final String EMAIL_ALREADY_EXISTS = "Email address already registered";
 
 }
