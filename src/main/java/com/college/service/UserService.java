@@ -84,7 +84,10 @@ public class UserService implements IUserService {
 	@Override
 	public ResponseObject registerUser(RegisterUser registerUser) {
 		
+<<<<<<< HEAD
 		
+=======
+>>>>>>> b5f5a7a8d9c67ea823182b500acf6683c4cf320e
 		if ((CommonUtils.isNull(registerUser.getUserId()) || (registerUser.getUserId().length() == 0))) {
 			return new ResponseObject(null, ErrorMessages.PROVIDE_USER_ID, HttpStatus.BAD_REQUEST);
 		}
