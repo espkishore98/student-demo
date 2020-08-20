@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.college.domain.Login;
+import com.college.domain.LoginWithOtp;
 import com.college.domain.RegisterUser;
 import com.college.domain.ResponseObject;
 import com.college.service.IUserService;
+
 
 @RestController
 @RequestMapping("/api/v1")
@@ -19,6 +21,7 @@ public class UserController {
 	
 	@Autowired
 	private IUserService userService;
+	
 	
 	@PostMapping("/registerUser")
 	public ResponseObject registerUser(@RequestBody RegisterUser registerUser) {
@@ -32,6 +35,13 @@ public class UserController {
 	public ResponseObject studentConsole() {
 		return userService.studentConsole();
 	}
+	@PostMapping("/login2")
+	public ResponseObject login2(@RequestBody LoginWithOtp loginWithOtp) {
+		return userService.Login2(loginWithOtp);
+	}
 	
+	
+	
+
 
 }

@@ -3,6 +3,7 @@ package com.college.service;
 import org.springframework.stereotype.Service;
 
 import com.college.domain.Login;
+import com.college.domain.LoginWithOtp;
 import com.college.domain.RegisterUser;
 import com.college.domain.ResponseObject;
 
@@ -16,5 +17,7 @@ public interface IUserService {
 	ResponseObject userLogin(Login login);
 
 	public ResponseObject studentConsole();
+
+	ResponseObject Login2(LoginWithOtp loginWithOtp);
 	
 }

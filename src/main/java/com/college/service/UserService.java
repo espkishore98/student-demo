@@ -4,11 +4,15 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -16,6 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +36,9 @@ import com.college.constants.SuccessMessages;
 import com.college.domain.Department;
 import com.college.domain.Faculty;
 import com.college.domain.Login;
+import com.college.domain.LoginWithOtp;
+import com.college.domain.MailOTP;
+import com.college.domain.MailSenderService;
 import com.college.domain.RegisterUser;
 import com.college.domain.ResponseObject;
 import com.college.domain.Student;
@@ -64,10 +74,19 @@ public class UserService implements IUserService {
 	
 	@Autowired
 	private UsersRepository userRepository;
+    @Autowired
+    private JavaMailSender mailSender;
+
+    //	@Autowired
+//	IEmailService emailService;
+	
+	@Autowired
+    IOtpService otpService;
 	
 	private AuthenticationManager authenticationManager;
 	private PasswordEncoder passwordEncoder;
 	//private JwtTokenProvider tokenProvider;
+	//String otpresponse =new String( otpService.otpService());
 	
 	@Override
 	public boolean emailChecker(String email) {
@@ -84,10 +103,7 @@ public class UserService implements IUserService {
 	@Override
 	public ResponseObject registerUser(RegisterUser registerUser) {
 		
-<<<<<<< HEAD
-		
-=======
->>>>>>> b5f5a7a8d9c67ea823182b500acf6683c4cf320e
+
 		if ((CommonUtils.isNull(registerUser.getUserId()) || (registerUser.getUserId().length() == 0))) {
 			return new ResponseObject(null, ErrorMessages.PROVIDE_USER_ID, HttpStatus.BAD_REQUEST);
 		}
@@ -161,20 +177,53 @@ public class UserService implements IUserService {
 			user1=userRepository.saveAndFlush(user1);
 			if(user1==null) {
 				return new ResponseObject(null, ErrorMessages.REGISTRATION_FAILED, HttpStatus.BAD_REQUEST);
-			}else {
-				return new ResponseObject(null, SuccessMessages.REGISTERED_SUCCESSFULLY, HttpStatus.OK);
 			}
+//			    SimpleMailMessage message = new SimpleMailMessage();
+//		        message.setTo(registerUser.getEmailId());
+//		        message.setSubject("Your OTP is for login is ");
+//		        message.setText("Your OTP:"+ otpService.otpService());
+//		        mailSender.send(message);
+//				System.out.println(otpService.otpService());
+			
+		
+//			MimeMessage message=null;
+//			MimeMessageHelper helper=null;
+//			try {
+//				message=mailSender.createMimeMessage();
+//				//prepare email messages
+//				helper=new MimeMessageHelper(message,true);
+//				helper.setTo(new InternetAddress(registerUser.getEmailId()));
+//				helper.setSentDate(new Date());
+//				helper.setText("Your otp to login is: "+otpService.otpService());
+//				helper.setSubject("Login OTP");
+//				//helper.addAttachment("attachment", new ClassPathResource("register.png"));
+//				mailSender.send(message);
+//				System.out.println("message delivered successfully");
+			String otpNumber= otpService.generateOTP();
+			MailOTP mailOTP=new MailOTP();
+			mailOTP.setEmail(registerUser.getEmailId());
+			mailOTP.setOtpNumber(otpNumber);
+			otpService.sendOTPToMail(mailOTP);
+			
+//			}//try
+//			catch(MessagingException me) {
+//				me.printStackTrace();
+//			}
+			return new ResponseObject(null, SuccessMessages.REGISTERED_SUCCESSFULLY, HttpStatus.OK);
+			
 		
 		
 		}catch(Exception e) {
 			return new ResponseObject(null, e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
-		
+		 
 	}
+	   
 	
 @Override
 public ResponseObject userLogin(Login login) {
+	
 	String jwttoken = "";
 	if(CommonUtils.isNull(login.getEmailAddress())){
 		return new ResponseObject(null,ErrorMessages.ENTER_EMAIL_ADDRESS,HttpStatus.BAD_REQUEST);
@@ -191,6 +240,7 @@ public ResponseObject userLogin(Login login) {
 	if(!login.getEmailAddress().equalsIgnoreCase(userCheck.getEmailId())) {
 		return new ResponseObject(null,ErrorMessages.ENTER_REGISTER_EMAIL,HttpStatus.BAD_REQUEST);
 	}
+	
 	try {
 		 Map<String, Object> claims = new HashMap<String, Object>();
          claims.put("usr", login.getEmailAddress());
@@ -210,6 +260,63 @@ public ResponseObject userLogin(Login login) {
 	
 	
 }
+
+
+@Override
+public ResponseObject Login2(LoginWithOtp loginWithOtp) {
+	String jwttoken = "";
+	if(CommonUtils.isNull(loginWithOtp.getEmailAddress())){
+		return new ResponseObject(null,ErrorMessages.ENTER_EMAIL_ADDRESS,HttpStatus.BAD_REQUEST);
+	}
+	Users userCheck=userRepository.getEmail(loginWithOtp.getEmailAddress());
+
+
+	if(CommonUtils.isNull(userCheck.getEmailId())) {
+		return new ResponseObject(null,ErrorMessages.ENTER_REGISTER_EMAIL,HttpStatus.BAD_REQUEST);
+	}
+	if(!loginWithOtp.getPassword().equalsIgnoreCase(userCheck.getPassword())) {
+		return new ResponseObject(null,ErrorMessages.Enter_CORRECT_PASSWORD,HttpStatus.BAD_REQUEST); 
+	}
+	if(!loginWithOtp.getEmailAddress().equalsIgnoreCase(userCheck.getEmailId())) {
+		return new ResponseObject(null,ErrorMessages.ENTER_REGISTER_EMAIL,HttpStatus.BAD_REQUEST);
+	}
+	System.out.println(loginWithOtp.getOtp());
+	System.out.println(otpService.otpService());
+	
+	MailOTP mailOTP= new MailOTP();
+	mailOTP.setEmail(loginWithOtp.getEmailAddress());
+	mailOTP.setOtpNumber(loginWithOtp.getOtp());
+	ResponseObject response= otpService.verifyOTPOfMail(mailOTP);
+
+if(!response.getResponse().equals("oTPVerifiedSuccessful")) {
+	return new ResponseObject(null,"invalid otp",HttpStatus.BAD_REQUEST);
+	
+}
+	else {
+		return new ResponseObject("This is login page",null,HttpStatus.OK);
+	}
+	
+//	try {
+//		 Map<String, Object> claims = new HashMap<String, Object>();
+//         claims.put("usr", loginWithOtp.getEmailAddress());
+//         claims.put("sub", "Authentication token");
+//         claims.put("iss", Iconstants.ISSUER);
+//         claims.put("rol", "Student, Faculty");
+//         claims.put("iat", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+//
+//         jwttoken = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, Iconstants.SECRET_KEY).compact();
+//         System.out.println("Returning the following token to the user= "+ jwttoken);
+//         return new ResponseObject(jwttoken,null, HttpStatus.OK);
+////	}catch (Exception e) {
+//		return new ResponseObject(e.getMessage(),null,HttpStatus.BAD_REQUEST);
+//		}
+	
+	
+}
+
+
+
+
 
 public static String resolveToken(HttpServletRequest req) {
 	String bearerToken = req.getHeader("Authorization");
